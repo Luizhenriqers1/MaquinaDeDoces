@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./CandyMachine.css";
 
 const CANDIES = [
   { name: "Doce A", price: 6 },
@@ -12,6 +13,17 @@ export default function CandyMachine() {
   const [dispensed, setDispensed] = useState(null);
   const [change, setChange] = useState(0);
 
+  useEffect(() => {
+    if (dispensed) {
+      setTimeout(() => {
+        setDispensed(null);
+        setChange(0);
+        setSelectedCandy(null);
+        setCredit(0);
+      }, 5000);
+    }
+  }, [dispensed]);
+
   const insertMoney = (amount) => {
     setCredit((prev) => prev + amount);
   };
@@ -23,60 +35,59 @@ export default function CandyMachine() {
   const buyCandy = () => {
     if (selectedCandy && credit >= selectedCandy.price) {
       setChange(credit - selectedCandy.price);
-      setCredit(0);
       setDispensed(selectedCandy);
-      setTimeout(() => setDispensed(null), 3000);
     }
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gray-200 h-screen">
-      <h1 className="text-2xl font-bold mb-4">Máquina de Doces</h1>
+    <div className="machine-container">
+      <h1 className="title">Máquina de Doces 🍬</h1>
 
-      <div className="bg-gray-800 p-6 rounded-lg text-white text-center mb-4">
-        <p>Crédito: R${credit},00</p>
-        {change > 0 && <p>Troco: R${change},00</p>}
-      </div>
-
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        {CANDIES.map((candy) => (
-          <button
-            key={candy.name}
-            onClick={() => selectCandy(candy)}
-            className={`p-3 rounded-lg border ${
-              selectedCandy?.name === candy.name ? "bg-blue-500 text-white" : "bg-white"
-            }`}
-          >
-            {candy.name} - R${candy.price},00
-          </button>
-        ))}
-      </div>
-
-      <div className="flex gap-2 mb-4">
-        {[1, 2, 5].map((value) => (
-          <button
-            key={value}
-            onClick={() => insertMoney(value)}
-            className="p-3 rounded-lg bg-green-500 text-white"
-          >
-            Inserir R${value},00
-          </button>
-        ))}
-      </div>
-
-      <button
-        onClick={buyCandy}
-        disabled={!selectedCandy || credit < selectedCandy.price}
-        className="p-3 rounded-lg bg-red-500 text-white"
-      >
-        Comprar
-      </button>
-
-      {dispensed && (
-        <div className="mt-6 p-3 bg-yellow-500 text-white rounded-lg">
-          {dispensed.name} foi entregue!
+      <div className="machine">
+        <div className="screen">
+          <p>Crédito: R${credit},00</p>
+          {change > 0 && <p>Troco: R${change},00</p>}
         </div>
-      )}
+
+        <div className="buttons">
+          {CANDIES.map((candy) => (
+            <button
+              key={candy.name}
+              onClick={() => selectCandy(candy)}
+              className={`candy-button ${
+                credit >= candy.price ? "available" : "unavailable"
+              } ${selectedCandy?.name === candy.name ? "selected" : ""}`}
+              disabled={credit < candy.price}
+            >
+              {candy.name} - R${candy.price},00
+            </button>
+          ))}
+        </div>
+
+        <div className="money-buttons">
+          {[1, 2, 5].map((value) => (
+            <button
+              key={value}
+              onClick={() => insertMoney(value)}
+              className="money-button"
+            >
+              Inserir R${value},00
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={buyCandy}
+          disabled={!selectedCandy || credit < selectedCandy.price}
+          className="buy-button"
+        >
+          Comprar 🍭
+        </button>
+
+        {dispensed && (
+          <div className="candy-dispensed">{dispensed.name} foi entregue!</div>
+        )}
+      </div>
     </div>
   );
 }
