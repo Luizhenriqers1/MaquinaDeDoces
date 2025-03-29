@@ -5,34 +5,87 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
+    padding: 20px;
 }
   
 .machine-container {
     text-align: center;
+    position: relative;
 }
   
 .title {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
 }
   
 .machine {
-    width: 300px;
-    background: #333;
+    width: 320px;
+    background: #d04733;
     padding: 20px;
     border-radius: 10px;
     color: white;
     position: relative;
 }
+
+.screens-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
   
-.screen {
+  .credit-screen, .change-screen {
     background: black;
-    padding: 10px;
+    padding: 8px 12px;
     border-radius: 5px;
+    flex: 1;
+    text-align: center;
+    min-width: 120px;
+  }
+  
+  .screen-label {
+    font-size: 12px;
+    margin-bottom: 2px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .screen-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+  }
+  
+  /* Efeito de brilho quando há troco */
+  .change-screen {
+    transition: all 0.3s ease;
+  }
+  
+  .change-screen:has(.screen-value:not(:contains("R$0,00"))) {
+    box-shadow: 0 0 10px #ff9900;
+    animation: pulse 1s infinite alternate;
+  }
+  
+  @keyframes pulse {
+    from { box-shadow: 0 0 5px #ff9900; }
+    to { box-shadow: 0 0 15px #ff9900; }
+  }
+
+.margem-button{
+    background-color:#342223;
+    border: 8px solid #0f090d;
     margin-bottom: 10px;
 }
-  
+
+.buttons{
+    height: 100px;
+    padding: 10px;   
+} 
+
 .buttons,
 .money-buttons {
     display: flex;
@@ -48,66 +101,176 @@ body {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    transition: 0.3s ease-in-out;
-}
-  
-/* Doce padrão */
-.candy-button {
-    background: lightblue;
+    transition: all 0.3s ease;
     color: black;
+    font-weight: bold;
 }
 
-/* Doce selecionado */
-.candy-button.selected {
-    background: blue !important;
-    color: white !important;
+.lever-container {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .lever {
+    width: 60px;
+    height: 70px;
+    background: #3c2420;
+    border: none;
+    border-radius: 5px 5px 0 0;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    overflow: hidden;
+    border: 4px solid #220e0d;
+  }
+  
+  .lever.up {
+    transform: rotate(0deg);
+  }
+  
+  .lever.down {
+    transform: rotate(30deg);
+    transform-origin: top center;
+  }
+  
+  .lever-handle {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 50px;
+    background: #5a3a32;
+    border-radius: 15px;
+  }
+  
+  .lever:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .lever:not(:disabled):hover .lever-handle {
+    background: #7a5a52;
+  }
+  
+
+.candy-button {
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 90px;
 }
 
-/* Doce disponível */
-.candy-button.available {
-    background: green;
+.candy-button-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.candy-letter {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.candy-emoji {
+    font-size: 24px;
+    margin: 4px 0;
+}
+
+.candy-price {
+    font-size: 14px;
+    font-weight: bold;
     color: white;
 }
 
-/* Doce indisponível */
 .candy-button.unavailable {
-    background: gray;
-    color: white;
+    background: gray !important;
+    color: white !important;
     cursor: not-allowed;
 }
-  
+
+.candy-button.available:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
 .money-button {
-    background: green;
-    color: white;
+    background: #f0a84f;
+    color: black;
+    transition: all 0.2s ease;
+}
+
+.money-button:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.money-button-active {
+    transform: scale(1.05);
+    background: #ffc266 !important;
+    box-shadow: 0 0 10px #ff9900;
+    border: 2px solid white;
 }
   
 .buy-button {
-    background: red;
+    background: #3c2420;
     color: white;
     width: 100%;
 }
 
-/* Animação do doce saindo da máquina */
+.dispense-area {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin-top: 14px;
+    border-bottom: 58px;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
 @keyframes dropCandy {
     0% {
-      transform: translateY(-100px);
-      opacity: 0;
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(20px);
+        opacity: 1;
     }
     100% {
-      transform: translateY(0);
-      opacity: 1;
+        transform: translateY(100px);
+        opacity: 1;
     }
 }
   
 .candy-dispensed {
     position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #facc15;
-    color: black;
-    padding: 10px 20px;
-    border-radius: 10px;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
+    color: white;
     animation: dropCandy 1.5s ease-out;
+    font-size: 28px;
 }
