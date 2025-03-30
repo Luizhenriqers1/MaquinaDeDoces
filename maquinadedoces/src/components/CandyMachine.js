@@ -7,16 +7,18 @@ const CANDIES = [
   { name: "Doce C", price: 8, color: "#8b9667", hoverColor: "#8b9667", emoji: "🍫" },
 ];
 
-export default function CandyMachine() {
+export default function CandyMachine({ onComplete }) {
   const [credit, setCredit] = useState(0);
   const [selectedCandy, setSelectedCandy] = useState(null);
   const [dispensed, setDispensed] = useState(null);
   const [change, setChange] = useState(0);
   const [activeMoneyButton, setActiveMoneyButton] = useState(null);
   const [leverPosition, setLeverPosition] = useState("up");
+  const [showExitButton, setShowExitButton] = useState(false);
 
   useEffect(() => {
     if (dispensed) {
+      setShowExitButton(true);
       setTimeout(() => {
         setDispensed(null);
         setChange(0);
@@ -38,14 +40,10 @@ export default function CandyMachine() {
 
   const buyCandy = () => {
     if (selectedCandy && credit >= selectedCandy.price) {
-
       setLeverPosition("down");
-
       const calculatedChange = credit - selectedCandy.price;
-
       setCredit(0);
-      setChange(calculatedChange > 0 ? calculatedChange : 0); // Só mostra troco se positivo
-
+      setChange(calculatedChange > 0 ? calculatedChange : 0);
 
       setTimeout(() => {
         setDispensed(selectedCandy);
@@ -55,8 +53,19 @@ export default function CandyMachine() {
     }
   };
 
+  const handleExit = () => {
+    if (onComplete) {
+      onComplete();
+    }
+  };
+
   return (
-    <div className="machine-container">
+    <div className="machine-container" style={{ 
+      backgroundImage: "url(public/images/candybg.png)",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      minHeight: "100vh"
+    }}>
       <h1 className="title">Máquina de Doces 🍬</h1>
 
       <div className="machine">
@@ -137,6 +146,15 @@ export default function CandyMachine() {
             </div>
           )}
         </div>
+
+        {showExitButton && (
+          <button 
+            onClick={handleExit}
+            className="exit-button"
+          >
+            Finalizar Compra
+          </button>
+        )}
       </div>
     </div>
   );

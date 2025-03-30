@@ -1,3 +1,4 @@
+
 body {
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
@@ -7,6 +8,10 @@ body {
     height: 100vh;
     margin: 0;
     padding: 20px;
+    background-image: url('/public/images/candybg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
   
 .machine-container {
@@ -273,4 +278,60 @@ body {
     color: white;
     animation: dropCandy 1.5s ease-out;
     font-size: 28px;
+}
+/* Novo estilo para o botão de saída */
+.exit-button {
+    position: absolute;
+    bottom: -60px;
+    right: 0;
+    padding: 12px 25px;
+    background: linear-gradient(to bottom, #ff66b2, #d4337d);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.exit-button:hover {
+    background: linear-gradient(to bottom, #ff4785, #c1226a);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+.exit-button:active {
+    transform: translateY(1px);
+}
+/* Responsividade */
+@media (max-width: 480px) {
+    .machine {
+        padding: 15px;
+        max-width: 340px;
+    }
+    
+    .title {
+        font-size: 24px;
+        padding: 8px 15px;
+    }
+    
+    .buttons {
+        height: auto;
+        flex-direction: column;
+    }
+    
+    .candy-button {
+        min-height: 80px;
+    }
+    
+    .exit-button {
+        position: relative;
+        bottom: 0;
+        right: 0;
+        margin-top: 20px;
+        width: 100%;
+    }
 }

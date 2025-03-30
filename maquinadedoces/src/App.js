@@ -3,7 +3,7 @@ import CandyMachine from "./components/CandyMachine";
 import './App.css';
 
 function App() {
-  const [gamePhase, setGamePhase] = useState('intro'); // intro, inside, interaction, candyMachine
+  const [gamePhase, setGamePhase] = useState('intro'); // intro, inside, interaction, candyMachine, exit
   const [dialogueIndex, setDialogueIndex] = useState(0);
 
   // Cenas e diálogos
@@ -11,7 +11,7 @@ function App() {
     intro: {
       background: 'url(/images/store-front.png)',
       dialogues: [
-        "Você está em frente à 'Doce Ilusão', uma loja de doces vintage com vitrais coloridos...",
+        "Você está em frente à loja de doces, uma loja vintage com vitrais coloridos...",
         "O cheiro de algodão doce fresco e caramelo derretido te atrai para dentro..."
       ]
     },
@@ -25,8 +25,15 @@ function App() {
     interaction: {
       background: 'url(/images/store-counter.png)',
       dialogues: [
-        "Atendente: 'Bem-vindo à Doce Ilusão! Nossa máquina de doces está cheia de surpresas hoje.'",
+        "Atendente: 'Seja Bem-vindo! Nossa máquina de doces está cheia de surpresas hoje.'",
         "Ela aponta para uma máquina vintage no canto: 'Quer tentar a sorte?'"
+      ]
+    },
+    exit: {
+      background: 'url(/images/store-cat.png)', // Pode usar a mesma imagem ou uma nova
+      dialogues: [
+        "Atendente: 'Muito obrigada por comprar com a gente!'",
+        "Ela entrega seu doce em um saquinho colorido: 'Volte sempre que quiser um pouco de doçura na sua vida!'"
       ]
     }
   };
@@ -39,13 +46,28 @@ function App() {
       if (gamePhase === 'intro') setGamePhase('inside');
       else if (gamePhase === 'inside') setGamePhase('interaction');
       else if (gamePhase === 'interaction') setGamePhase('candyMachine');
+      // Não precisamos de transição automática da candyMachine para exit
       setDialogueIndex(0);
     }
   };
 
   return (
     <div className="App">
-      {gamePhase !== 'candyMachine' ? (
+      {gamePhase === 'candyMachine' ? (
+        <CandyMachine onComplete={() => setGamePhase('exit')} />
+      ) : gamePhase === 'exit' ? (
+        <div 
+          className="visual-novel-scene" 
+          style={{ backgroundImage: story.exit.background }}
+        >
+          <div className="dialogue-box">
+            <p>{story.exit.dialogues[dialogueIndex]}</p>
+            <button onClick={handleNext}>
+              {dialogueIndex < story.exit.dialogues.length - 1 ? '▶' : 'Fim'}
+            </button>
+          </div>
+        </div>
+      ) : (
         <div 
           className="visual-novel-scene" 
           style={{ backgroundImage: story[gamePhase].background }}
@@ -57,8 +79,6 @@ function App() {
             </button>
           </div>
         </div>
-      ) : (
-        <CandyMachine /> // Sua máquina de doces original aparece aqui
       )}
     </div>
   );
