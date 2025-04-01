@@ -67,33 +67,39 @@ function App() {
       {gamePhase === 'candyMachine' ? (
         <CandyMachine onComplete={() => setGamePhase('exit')} />
       ) : gamePhase === 'end' ? (
-        <div 
-          className="visual-novel-scene end-scene" 
+        <div
+          className="visual-novel-scene end-scene"
           style={{ backgroundImage: story.end.background }}
         >
           <div className="dialogue-box">
             <p>{story.end.dialogues[dialogueIndex]}</p>
-            <button onClick={() => setGamePhase('intro')}>
+            <button
+              className="play-again-button"
+              onClick={() => {
+                setGamePhase('intro');
+                setDialogueIndex(0);
+              }}
+            >
               Jogar Novamente
             </button>
           </div>
           {/* Nova caixa de créditos */}
           <div className="credits-box">
             {story.end.credits.split('\n').map((line, i) => (
-        <p key={i} style={{ margin: '5px 0' }}>{line}</p>
-      ))}
+              <p key={i} style={{ margin: '5px 0' }}>{line}</p>
+            ))}
           </div>
         </div>
       ) : (
-        <div 
-          className="visual-novel-scene" 
+        <div
+          className="visual-novel-scene"
           style={{ backgroundImage: story[gamePhase].background }}
         >
           <div className="dialogue-box">
             <p>{story[gamePhase].dialogues[dialogueIndex]}</p>
             <button onClick={handleNext}>
-              {dialogueIndex < story[gamePhase].dialogues.length - 1 ? '▶' : 
-               gamePhase === 'exit' ? 'Fim' : '➤'}
+              {dialogueIndex < story[gamePhase].dialogues.length - 1 ? '▶' :
+                gamePhase === 'exit' ? 'Fim' : '➤'}
             </button>
           </div>
         </div>

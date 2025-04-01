@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./CandyMachine.css";
+import { time } from "framer-motion";
 
 const CANDIES = [
   { name: "Doce A", price: 6, color: "#d34b35", hoverColor: "#d34b35", emoji: "🥜" },
@@ -18,16 +19,24 @@ export default function CandyMachine({ onComplete }) {
 
   useEffect(() => {
     if (dispensed) {
-      setShowExitButton(true);
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setDispensed(null);
         setChange(0);
         setSelectedCandy(null);
         setCredit(0);
-      }, 3000);
+        setShowExitButton(true); 
+        }, 3000);
+      
+      return () => clearTimeout(timer);
     }
   }, [dispensed]);
 
+  const handleExit = () => {
+    setShowExitButton(false);
+    if (onComplete) {
+      onComplete();
+    }
+  };
   const insertMoney = (amount) => {
     setActiveMoneyButton(amount);
     setTimeout(() => setActiveMoneyButton(null), 200);
@@ -47,15 +56,10 @@ export default function CandyMachine({ onComplete }) {
 
       setTimeout(() => {
         setDispensed(selectedCandy);
+        setShowExitButton(false)
       }, 300);
 
       setTimeout(() => setLeverPosition("up"), 500);
-    }
-  };
-
-  const handleExit = () => {
-    if (onComplete) {
-      onComplete();
     }
   };
 
@@ -66,9 +70,9 @@ export default function CandyMachine({ onComplete }) {
       backgroundPosition: "center",
       minHeight: "100vh"
     }}>
-      <h1 className="title">Máquina de Doces 🍬</h1>
 
       <div className="machine">
+      <h1 className="title">Máquina de Doces 🍬</h1>
         <div className="screens-container">
           <div className="credit-screen">
             <p className="screen-label">CRÉDITO</p>
