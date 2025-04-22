@@ -1,0 +1,62 @@
+.scene-selector {
+    width: 98.9vw;
+    height: 107vh;
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .selector-title {
+    font-size: 6vw;
+    max-font-size: 42px;
+    margin-bottom: 30px;
+  }
+  
+  .selector-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .selector-buttons button {
+    padding: 14px 20px;
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+  
+  .selector-buttons button:hover {
+    background-color: #444;
+  }
+  
+  /* Responsividade extra para telas maiores */
+  @media (min-width: 600px) {
+    .selector-buttons {
+      flex-direction: row;
+      justify-content: center;
+      max-width: none;
+    }
+  
+    .selector-buttons button {
+      width: 150px;
+    }
+  
+    .selector-title {
+      font-size: 32px;
+    }
+  }
+  
