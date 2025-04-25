@@ -1,0 +1,57 @@
+.elevator-view {
+  width: 100vw;
+  height: 110vh;
+  background-image: url("/public/images/elevator-inside.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.elevator-text {
+  font-size: 2rem;
+  color: white;
+  background-color: rgba(0,0,0,0.7);
+  padding: 20px 40px;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.elevator-panel {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.elevator-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.elevator-buttons button {
+  padding: 10px 20px;
+  background: #ff66b2;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.elevator-buttons button:hover {
+  background: #e44d94;
+}

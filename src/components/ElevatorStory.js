@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ElevatorCabin from "./ElevatorCabin";
 import FloorScene from "./FloorScene";
 import "./ElevatorStory.css";
+import { text } from "framer-motion/client";
 
 export default function ElevatorStory({ onComplete }) {
   const [phase, setPhase] = useState("intro"); // intro, elevator, floor
@@ -30,7 +31,7 @@ export default function ElevatorStory({ onComplete }) {
           <div className="dialogue-box">
             <p>{shoppingNarrative[index]}</p>
             <button onClick={nextDialogue}>
-              {index < shoppingNarrative.length - 1 ? "▶" : "Entrar no Elevador"}
+              {index < shoppingNarrative.length - 1 ? "▶" : "▶"}
             </button>
           </div>
         </div>

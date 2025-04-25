@@ -28,8 +28,8 @@ export default function FloorScene({ floor, onBack, onFinish }) {
       <div className="dialogue-box">
         <p>{scene.text}</p>
         <div className="dialogue-buttons">
-          <button onClick={onBack}>Voltar para o elevador</button>
-          <button onClick={onFinish}>Finalizar jornada</button>
+          <button onClick={onBack}>↕️</button>
+          <button onClick={onFinish}>🔚</button>
         </div>
       </div>
     </div>

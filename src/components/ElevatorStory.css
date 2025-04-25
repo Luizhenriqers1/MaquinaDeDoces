@@ -1,13 +1,8 @@
  .visual-novel-scene {
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
- 
-} 
 
-.dialogue-box button:hover {
-  background-color: #e74b9e;
-}
+} 
 
 .elevator-cabin {
   width: 100vw;
@@ -20,10 +15,7 @@
   justify-content: center;
 }
 
-.floor-buttons {
-  display: flex;
-  gap: 20px;
-}
+
 
 .floor-buttons button {
   padding: 15px 25px;
