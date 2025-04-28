@@ -7,7 +7,7 @@ export default function SceneSelector({ onSelect }) {
       <h1 className="selector-title">Escolha o Cenário</h1>
       <div className="selector-buttons">
         <button onClick={() => onSelect("introA")}>📖 Cenário A</button>
-        <button onClick={() => onSelect("elevatorStory")}>🛗 Cenário B</button>
+        <button onClick={() => onSelect("elevatorStory")}>🏢 Cenário B</button>
       </div>
     </div>
   );
