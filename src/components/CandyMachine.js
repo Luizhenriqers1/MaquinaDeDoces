@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import BackgroundScene from "./BackgroundScene";  // 👉 importa o componente de background
 import "./CandyMachine.css";
-import { time } from "framer-motion";
 
 const CANDIES = [
-  { name: "Doce A", price: 6, color: "#d34b35", hoverColor: "#d34b35", emoji: "🥜" },
-  { name: "Doce B", price: 7, color: "#445b6f", hoverColor: "#445b6f", emoji: "🍬" },
-  { name: "Doce C", price: 8, color: "#8b9667", hoverColor: "#8b9667", emoji: "🍫" },
+  { name: "Doce A", price: 6, color: "#d34b35", emoji: "🥜" },
+  { name: "Doce B", price: 7, color: "#445b6f", emoji: "🍬" },
+  { name: "Doce C", price: 8, color: "#8b9667", emoji: "🍫" },
 ];
 
 export default function CandyMachine({ onComplete }) {
@@ -24,19 +24,17 @@ export default function CandyMachine({ onComplete }) {
         setChange(0);
         setSelectedCandy(null);
         setCredit(0);
-        setShowExitButton(true); 
-        }, 3000);
-      
+        setShowExitButton(true);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [dispensed]);
 
   const handleExit = () => {
     setShowExitButton(false);
-    if (onComplete) {
-      onComplete();
-    }
+    if (onComplete) onComplete();
   };
+
   const insertMoney = (amount) => {
     setActiveMoneyButton(amount);
     setTimeout(() => setActiveMoneyButton(null), 200);
@@ -56,7 +54,7 @@ export default function CandyMachine({ onComplete }) {
 
       setTimeout(() => {
         setDispensed(selectedCandy);
-        setShowExitButton(false)
+        setShowExitButton(false);
       }, 300);
 
       setTimeout(() => setLeverPosition("up"), 500);
@@ -64,15 +62,10 @@ export default function CandyMachine({ onComplete }) {
   };
 
   return (
-    <div className="machine-container" style={{ 
-      backgroundImage: "url(public/images/candybg.png)",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      minHeight: "100vh"
-    }}>
-
+    <BackgroundScene background={`url(/images/candybg.png)`}>
       <div className="machine">
-      <h1 className="title">Máquina de Doces 🍬</h1>
+        <h1 className="title">Máquina de Doces 🍬</h1>
+
         <div className="screens-container">
           <div className="credit-screen">
             <p className="screen-label">CRÉDITO</p>
@@ -80,7 +73,9 @@ export default function CandyMachine({ onComplete }) {
           </div>
           <div className="change-screen">
             <p className="screen-label">TROCO</p>
-            <p className="screen-value">{change > 0 ? `R$${change},00` : "R$0,00"}</p>
+            <p className="screen-value">
+              {change > 0 ? `R$${change},00` : "R$0,00"}
+            </p>
           </div>
         </div>
 
@@ -90,17 +85,11 @@ export default function CandyMachine({ onComplete }) {
               const isAvailable = credit >= candy.price;
               const isSelected = selectedCandy?.name === candy.name;
 
-              let candyEmoji = '';
-              if (candy.name === "Doce A") candyEmoji = "🥜";
-              else if (candy.name === "Doce B") candyEmoji = "🍬";
-              else if (candy.name === "Doce C") candyEmoji = "🍫";
-
               return (
                 <button
                   key={candy.name}
                   onClick={() => selectCandy(candy)}
-                  className={`candy-button ${isAvailable ? "available" : "unavailable"} ${isSelected ? "selected" : ""
-                    }`}
+                  className={`candy-button ${isAvailable ? "available" : "unavailable"} ${isSelected ? "selected" : ""}`}
                   disabled={!isAvailable}
                   style={{
                     backgroundColor: isAvailable ? candy.color : "",
@@ -109,7 +98,7 @@ export default function CandyMachine({ onComplete }) {
                   }}
                 >
                   {candy.name.replace("Doce ", "")}
-                  <div className="candy-emoji">{candyEmoji}</div>
+                  <div className="candy-emoji">{candy.emoji}</div>
                   <div className="candy-price">R${candy.price},00</div>
                 </button>
               );
@@ -122,8 +111,7 @@ export default function CandyMachine({ onComplete }) {
             <button
               key={value}
               onClick={() => insertMoney(value)}
-              className={`money-button ${activeMoneyButton === value ? "money-button-active" : ""
-                }`}
+              className={`money-button ${activeMoneyButton === value ? "money-button-active" : ""}`}
             >
               Inserir R${value},00
             </button>
@@ -152,14 +140,11 @@ export default function CandyMachine({ onComplete }) {
         </div>
 
         {showExitButton && (
-          <button 
-            onClick={handleExit}
-            className="exit-button"
-          >
+          <button onClick={handleExit} className="exit-button">
             Finalizar Compra
           </button>
         )}
       </div>
-    </div>
+    </BackgroundScene>
   );
 }

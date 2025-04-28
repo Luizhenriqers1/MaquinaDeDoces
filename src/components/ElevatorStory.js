@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import ElevatorCabin from "./ElevatorCabin";
 import FloorScene from "./FloorScene";
 import "./ElevatorStory.css";
-import { text } from "framer-motion/client";
 
 export default function ElevatorStory({ onComplete }) {
   const [phase, setPhase] = useState("intro"); // intro, elevator, floor

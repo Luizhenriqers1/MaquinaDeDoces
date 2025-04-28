@@ -1,59 +1,41 @@
-/* Estilos existentes (mantidos para compatibilidade) */
-.App {
-  text-align: center;
-  position: relative;
+/* RESET COMPLETO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Estilos novos para o Visual Novel */
-.visual-novel-scene {
+/* CONTAINER PRINCIPAL */
+.App {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  right: 0;
+  bottom: 0;
+  text-align: initial;
+  background-color: #000; /* Fundo preto para evitar vazamentos */
+}
+
+/* VISUAL NOVEL SCENE - CENAS */
+.visual-novel-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: background-image 0.8s ease-in-out;
   z-index: 10;
 }
 
+/* DIÁLOGO */
 .dialogue-box {
   background-color: rgba(0, 0, 0, 0.85);
   color: #fff;
@@ -61,7 +43,7 @@
   max-width: 800px;
   padding: 25px;
   border-radius: 15px;
-  margin: 0 auto 50px;
+  margin: 0 auto 20px;
   font-family: 'Courier New', monospace;
   font-size: 1.3rem;
   line-height: 1.6;
@@ -69,6 +51,7 @@
   box-shadow: 0 0 15px rgba(255, 102, 178, 0.5);
   position: relative;
   animation: fadeIn 0.5s ease-out;
+  transform: translateY(0); /* Garante posicionamento correto */
 }
 
 .dialogue-box p {
@@ -76,6 +59,7 @@
   text-shadow: 1px 1px 2px #000;
 }
 
+/* BOTÕES */
 .dialogue-box button {
   background: transparent;
   color: #ff66b2;
@@ -122,52 +106,10 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-.play-again-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.play-again-button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: -1;
-}
-
-.play-again-button:hover::after {
-  transform: translateX(0);
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* Animações */
+/* ANIMAÇÕES */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* Efeito de transição entre cenas */
-.scene-transition {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  opacity: 0;
-  z-index: 20;
-  pointer-events: none;
-  animation: sceneTransition 1.5s ease-in-out;
 }
 
 @keyframes sceneTransition {
@@ -176,31 +118,14 @@
   100% { opacity: 0; }
 }
 
-@media (max-width: 768px) {
-  .play-again-button {
-    padding: 14px 35px;
-    font-size: 1.2rem;
-    margin-top: 200px;
-  }
+/* TELA FINAL */
+.end-scene {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (max-width: 480px) {
-  .play-again-button {
-    width: 90%;
-    padding: 12px;
-    font-size: 0.95rem;
-  }
-}
-
-/* Ajuste para telas muito pequenas */
-@media (max-width: 360px) {
-  .play-again-button {
-    font-size: 0.9rem;
-    padding: 10px 15px;
-  }
-}
-
-/* Ajuste específico para a tela final */
 .end-scene .dialogue-box {
   display: flex;
   flex-direction: column;
@@ -210,37 +135,6 @@
 
 .end-scene .dialogue-box p {
   margin-bottom: 15px;
-}
-
-/* Estilo para quando a CandyMachine estiver ativa */
-.candy-machine-active {
-  position: relative;
-  z-index: 15;
-  background-color: #282c34;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .dialogue-box {
-    width: 90%;
-    padding: 15px;
-    font-size: 1.1rem;
-  }
-  
-  .dialogue-box button {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-  }
-}
-/* Estilos para a tela final */
-.end-scene {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .credits-box {
@@ -259,18 +153,62 @@
   max-width: 80%;
 }
 
-/* Ajuste para o botão na tela final */
-.end-scene .dialogue-box button {
-  margin-top: 20px;
-  background-color: #ff66b2;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .dialogue-box {
+    width: 90%;
+    padding: 15px;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+  
+  .dialogue-box button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .play-again-button {
+    padding: 14px 35px;
+    font-size: 1.2rem;
+    margin-top: 200px;
+  }
 }
 
-.end-scene .dialogue-box button:hover {
-  background-color: #ff4785;
+@media (max-width: 480px) {
+  .play-again-button {
+    width: 90%;
+    padding: 12px;
+    font-size: 0.95rem;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 360px) {
+  .play-again-button {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+}
+
+/* COMPONENTES ESPECÍFICOS */
+.candy-machine-active {
+  position: relative;
+  z-index: 15;
+  background-color: #282c34;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.scene-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0;
+  z-index: 20;
+  pointer-events: none;
+  animation: sceneTransition 1.5s ease-in-out;
 }

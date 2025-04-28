@@ -1,50 +1,31 @@
 import { useState } from "react";
 import CandyMachine from "./components/CandyMachine";
 import SceneSelector from "./components/SceneSelector";
-import ElevatorStory from "./components/ElevatorStory"; // futura história do elevador
+import ElevatorCabin from "./components/ElevatorCabin";
+import FloorScene from "./components/FloorScene";
+import BackgroundScene from "./components/BackgroundScene";
+import story from "./data/stories";
 import "./App.css";
 
 function App() {
   const [gamePhase, setGamePhase] = useState("select");
   const [dialogueIndex, setDialogueIndex] = useState(0);
+  const [currentFloor, setCurrentFloor] = useState(null);
+  const [visitedFloors, setVisitedFloors] = useState([]);
 
-  const story = {
-    introA: {
-      background: 'url(/images/store-front.png)',
-      dialogues: [
-        "Você está em frente à loja de doces...",
-        "O cheiro de algodão doce te atrai para dentro..."
-      ]
-    },
-    inside: {
-      background: 'url(/images/store-interior.png)',
-      dialogues: [
-        "O interior é como uma cápsula do tempo...",
-        "Uma atendente se aproxima sorrindo..."
-      ]
-    },
-    interaction: {
-      background: 'url(/images/store-counter.png)',
-      dialogues: [
-        "Atendente: 'Seja bem-vindo à nossa loja!'",
-        "'Quer tentar a sorte na máquina de doces?'"
-      ]
-    },
-    exit: {
-      background: 'url(/images/store-cat.png)',
-      dialogues: [
-        "Atendente: 'Volte sempre que quiser doçura!'"
-      ]
-    },
-    end: {
-      background: 'url(/images/store-front.png)',
-      dialogues: ["Obrigado por jogar!"],
-      credits: `Desenvolvido por:
-      Eloisa Alves Silva - 821216356
-      Luiz Henrique Ribeiro da Silva - 821224356
-      Matias Porto Lima - 82120858
-      Samuel Lima Nunes - 821234484`
-    }
+  const specialDialogue = {
+    background: 'url(/images/all-floors-visited.png)',
+    text: "Você explorou todos os andares do prédio! Agora pode voltar para a loja de doces."
+  };
+
+  const handleFloorSelection = (floor) => {
+    setCurrentFloor(floor);
+    setVisitedFloors(prev => [...prev, floor]);
+    setGamePhase("floorScene");
+  };
+
+  const handleBackToElevator = () => {
+    setGamePhase("elevatorStory");
   };
 
   const handleNext = () => {
@@ -64,14 +45,30 @@ function App() {
       {gamePhase === "select" ? (
         <SceneSelector onSelect={(scene) => setGamePhase(scene)} />
       ) : gamePhase === "elevatorStory" ? (
-        <ElevatorStory onComplete={() => setGamePhase("select")} />
+        <ElevatorCabin
+          onSelectFloor={handleFloorSelection}
+          visitedFloors={visitedFloors}
+        />
+      ) : gamePhase === "floorScene" ? (
+        <FloorScene
+          floor={currentFloor}
+          visitedFloors={visitedFloors}
+          onBack={handleBackToElevator}
+          onFinish={(target) => setGamePhase(target || "candyMachine")}
+        />
+      ) : gamePhase === "specialDialogue" ? (
+        <BackgroundScene background={specialDialogue.background}>
+          <div className="dialogue-box">
+            <p>{specialDialogue.text}</p>
+            <button onClick={() => setGamePhase("candyMachine")}>
+              Ir para Loja de Doces
+            </button>
+          </div>
+        </BackgroundScene>
       ) : gamePhase === "candyMachine" ? (
         <CandyMachine onComplete={() => setGamePhase("exit")} />
       ) : gamePhase === "end" ? (
-        <div
-          className="visual-novel-scene end-scene"
-          style={{ backgroundImage: story.end.background }}
-        >
+        <BackgroundScene background={story.end.background}>
           <div className="dialogue-box">
             <p>{story.end.dialogues[dialogueIndex]}</p>
             <button
@@ -89,19 +86,16 @@ function App() {
               <p key={i} style={{ margin: '5px 0' }}>{line}</p>
             ))}
           </div>
-        </div>
+        </BackgroundScene>
       ) : (
-        <div
-          className="visual-novel-scene"
-          style={{ backgroundImage: story[gamePhase].background }}
-        >
+        <BackgroundScene background={story[gamePhase].background}>
           <div className="dialogue-box">
             <p>{story[gamePhase].dialogues[dialogueIndex]}</p>
             <button onClick={handleNext}>
               {dialogueIndex < story[gamePhase].dialogues.length - 1 ? "▶" : "➤"}
             </button>
           </div>
-        </div>
+        </BackgroundScene>
       )}
     </div>
   );

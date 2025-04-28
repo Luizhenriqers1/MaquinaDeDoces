@@ -1,5 +1,5 @@
 import React from "react";
-import "./ElevatorStory.css";
+import "./FloorScene.css";
 
 const floorData = {
   0: {
@@ -15,8 +15,8 @@ const floorData = {
     text: "Um petshop barulhento e cheio de filhotes adoráveis te recebe."
   },
   3: {
-    image: "/images/loja-doces.png",
-    text: "A loja de doces te transporta para um mundo mágico de sabores e cores."
+    image: "/images/mirante.png",
+    text: "Você chega ao mirante do prédio e consegue ver toda a cidade no inverno."
   }
 };
 
@@ -28,8 +28,8 @@ export default function FloorScene({ floor, onBack, onFinish }) {
       <div className="dialogue-box">
         <p>{scene.text}</p>
         <div className="dialogue-buttons">
-          <button onClick={onBack}>↕️</button>
-          <button onClick={onFinish}>🔚</button>
+          <button onClick={onBack}>↕️ Voltar ao Elevador</button>
+          <button onClick={() => onFinish("end")}>🔚 Finalizar História</button>
         </div>
       </div>
     </div>
