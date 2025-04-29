@@ -1,7 +1,7 @@
 .scene-selector {
     width: 98.9vw;
     height: 107vh;
-    background-color: white;
+    background-image: url(/public/images/predio.png);
     color: black;
     display: flex;
     flex-direction: column;
@@ -11,6 +11,12 @@
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
+    background-size:38%;
+    background-position: center;
+    
+    height: 100vh;
+    width: 100%;
+    
   }
   
   .selector-title {
